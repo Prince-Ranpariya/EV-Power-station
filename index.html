@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <p>Don’t have an account? <a href="3.html">Register</a></p>
+  </div>
+
+  <script type="module">
+    // Firebase Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdPZ3FqMdguYaDlvSiexSzkrdM-sumvL8",
+      authDomain: "electric-charging-statio-2486d.firebaseapp.com",
+      projectId: "electric-charging-statio-2486d",
+      storageBucket: "electric-charging-statio-2486d.firebasestorage.app",
+      messagingSenderId: "1024870214425",
+      appId: "1:1024870214425:web:7e053a3dea50911329f388",
+      measurementId: "G-QJESC6R1SG"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Login Function
+    async function login() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        // Check if it's the admin login (manual bypass)
+        if (email === "admin@gmail.com" && password === "123456") {
+          // Optional: You can still verify this user in Firebase if registered there.
+          window.location.href = "Adminpage.html";
+          return;
+        }
+
+        // Regular Firebase user login
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "1.html"; // redirect normal users
+
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    }
+
+    window.login = login;
+  </script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+ "<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCharge - EV Charging Station</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #10b981;
+            --secondary-color: #059669;
+            --accent-color: #047857;
+            --dark-color: #1f2937;
+            --light-color: #f9fafb;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        }
+        
+        .charging-animation {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .charging-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: charging 3s infinite;
+        }
+        
+        @keyframes charging {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .station-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .station-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-form {
+            transition: all 0.3s ease;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <i class="fas fa-bolt text-green-600 text-2xl mr-2"></i>
+                   <a href="#home" class="text-gray-600 hover:text-green-600 transition duration-300"> <span class="font-bold text-xl text-gray-800">EcoCharge</span></a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-green-600 transition duration-300">Home</a>
+                    <a href="#stations" class="text-gray-600 hover:text-green-600 transition duration-300">Stations</a>
+                    <a href="Book.html" class="text-gray-600 hover:text-green-600 transition duration-300">Book Now</a>
+                    <a href="Status.html" class="text-gray-600 hover:text-green-600 transition duration-300">Booking Status</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-green-600 transition duration-300">Pricing</a>
+                    <a href="#contact" class="text-gray-600 hover:text-green-600 transition duration-300">Contact</a>
+                    <a href="index.html">Logout</a>
+
+                    </div>
+                <!-- <button onclick="login()">Login</button> -->
+                
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-gray-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-4 shadow-lg">
+                <a href="#home" class="block py-2 text-gray-600 hover:text-green-600">Home</a>
+                <a href="#stations" class="block py-2 text-gray-600 hover:text-green-600">Stations</a>
+                <a href="Book.html" class="block py-2 text-gray-600 hover:text-green-600">Book Now</a>
+                <a href="#pricing" class="block py-2 text-gray-600 hover:text-green-600">Pricing</a>
+                <a href="#contact" class="block py-2 text-gray-600 hover:text-green-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white pt-24 pb-16 md:pt-32 md:pb-24">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Charge Your EV,<br>Power Your Journey</h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90">Fast, reliable electric vehicle charging stations across the city</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="Book.html" class="bg-white text-green-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 ">
+                    <i class="fas fa-calendar-check mr-2"></i>Book Now
+                </a>
+                <a href="#stations" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold 	">
+                    <i class="fas fa-map-marker-alt mr-2"></i>Find Stations
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charging Stations Section -->
+<section id="stations" class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Our Charging Stations</h2>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Station 1 -->
+            <div class="">
+                <div class="h-48">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d8a7d25b-cfe9-4bc0-bd12-6c912c496504.png" alt="Modern urban EV charging station with multiple charging ports and clean design in a city setting" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Downtown Hub</h3>
+                    <p class="text-gray-600 mb-4">123 Main Street, City Center</p>
+                    <div class="flex items-center mb-4">
+                        <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">Fast Charging</span>
+                        <span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full ml-2">Available</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">8 ports available • 24/7 access • Cafe nearby</p>
+                    <button onclick="window.location.href='Book.html'" class="w-full bg-green-600 text-white py-2 rounded-md">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Station 2 -->
+            <div class="">
+                <div class="h-48">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4fca6fc9-3257-4e1d-a652-799091ba0814.png" alt="Shopping mall EV charging station with modern design and convenience amenities nearby" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Mall Charging Point</h3>
+                    <p class="text-gray-600 mb-4">456 Shopping Ave, East District</p>
+                    <div class="flex items-center mb-4">
+                        <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">Fast Charging</span>
+                        <span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full ml-2">Available</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">6 ports available • Mall hours • Shopping access</p>
+                    <button onclick="window.location.href='Book.html'" class="w-full bg-green-600 text-white py-2 rounded-md">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Station 3 -->
+            <div class="">
+                <div class="h-48">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bb97eb1b-cf3a-4b92-b73d-4ac1df06ba8d.png" alt="Highway rest stop EV charging station with multiple vehicles charging and convenience store" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Highway Oasis</h3>
+                    <p class="text-gray-600 mb-4">Highway 101, Exit 45</p>
+                    <div class="flex items-center mb-4">
+                        <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">Ultra-Fast</span>
+                        <span class="bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full ml-2">2 Available</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">4 ports available • 24/7 • Rest area</p>
+                    <button onclick="window.location.href='Book.html'" class="w-full bg-green-600 text-white py-2 rounded-md">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ 
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Simple, Transparent Pricing</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <h3 class="text-xl font-semibold mb-4">Standard Charge</h3>
+                    <div class="text-3xl font-bold text-green-600 mb-4">$0.35/kWh</div>
+                    <ul class="text-gray-600 space-y-2 mb-6">
+                        <li>Up to 50kW charging speed</li>
+                        <li>Perfect for daily charging</li>
+                        <li>4-hour maximum stay</li>
+                        <li>Basic support</li>
+                    </ul>
+                    <button class="w-full bg-gray-200 text-gray-800 py-2 rounded-md font-semibold">
+                        Most Popular
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 text-center border-2 border-green-500 transform scale-105">
+                    <h3 class="text-xl font-semibold mb-4">Fast Charge</h3>
+                    <div class="text-3xl font-bold text-green-600 mb-4">$0.45/kWh</div>
+                    <ul class="text-gray-600 space-y-2 mb-6">
+                        <li>Up to 150kW charging speed</li>
+                        <li>Ideal for quick top-ups</li>
+                        <li>2-hour maximum stay</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="w-full bg-green-600 text-white py-2 rounded-md font-semibold hover:bg-green-700 transition duration-300">
+                        Recommended
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <h3 class="text-xl font-semibold mb-4">Ultra-Fast Charge</h3>
+                    <div class="text-3xl font-bold text-green-600 mb-4">$0.60/kWh</div>
+                    <ul class="text-gray-600 space-y-2 mb-6">
+                        <li>Up to 350kW charging speed</li>
+                        <li>For emergency charging</li>
+                        <li>1-hour maximum stay</li>
+                        <li>24/7 premium support</li>
+                    </ul>
+                    <button class="w-full bg-gray-200 text-gray-800 py-2 rounded-md font-semibold">
+                        Premium Option
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Get In Touch</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-green-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-green-600 mr-3"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-green-600 mr-3"></i>
+                            <span>support@ecocharge.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-green-600 mr-3"></i>
+                            <span>123 Green Energy Blvd, Eco City</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-green-600 mr-3"></i>
+                            <span>24/7 Customer Support</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">Send us a Message</h3>
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <input type="email" placeholder="Your Email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-md font-semibold hover:bg-green-700 transition duration-300">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-bolt text-green-400 text-2xl mr-2"></i>
+                        <span class="font-bold text-xl">EcoCharge</span>
+                    </div>
+                    <p class="text-gray-400">Powering the future of transportation with clean, renewable energy solutions.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#stations" class="text-gray-400 hover:text-white transition duration-300">Stations</a></li>
+                        <li><a href="#booking" class="text-gray-400 hover:text-white transition duration-300">Booking</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition duration-300">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 EcoCharge. All rights reserved. Powering a greener future.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-6 md:p-8 max-w-md w-full mx-4">
+            <div class="text-center">
+                <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
+                <h3 class="text-2xl font-semibold mb-2">Booking Confirmed!</h3>
+                <p id="booking-details" class="text-gray-600 mb-6">Your charging slot has been successfully booked.</p>
+                <button onclick="closeModal()" class="bg-green-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-green-700 transition duration-300">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('booking-date').min = today;
+            
+            // Mobile menu toggle
+            document.getElementById('menu-toggle').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+        
+        // Select station function
+        function selectStation(stationName) {
+            document.getElementById('selected-station').textContent = stationName;
+            document.getElementById('selected-station').classList.add('bg-green-100', 'border-green-300', 'text-green-800');
+            document.getElementById('selected-station').classList.remove('bg-gray-100', 'border-gray-300', 'text-gray-600');
+            
+            // Scroll to booking form
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Booking form submission
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const station = document.getElementById('selected-station').textContent;
+            const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('time-slot').value;
+            const vehicle = document.getElementById('vehicle-type').value;
+            
+            if (station === 'Please select a station from the list above') {
+                alert('Please select a charging station first.');
+                return;
+            }
+            
+            // Show booking details in modal
+            document.getElementById('booking-details').innerHTML = `
+                <strong>Station:</strong> ${station}<br>
+                <strong>Date:</strong> ${date}<br>
+                <strong>Time:</strong> ${time}<br>
+                <strong>Vehicle:</strong> ${vehicle}
+            `;
+            
+            // Show modal
+            document.getElementById('booking-modal').classList.remove('hidden');
+            
+            // Reset form
+            this.reset();
+            document.getElementById('selected-station').textContent = 'Please select a station from the list above';
+            document.getElementById('selected-station').classList.remove('bg-green-100', 'border-green-300', 'text-green-800');
+            document.getElementById('selected-station').classList.add('bg-gray-100', 'border-gray-300', 'text-gray-600');
+        });
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('booking-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+    <!-- <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdPZ3FqMdguYaDlvSiexSzkrdM-sumvL8",
+      authDomain: "electric-charging-statio-2486d.firebaseapp.com",
+      projectId: "electric-charging-statio-2486d",
+      storageBucket: "electric-charging-statio-2486d.firebasestorage.app",
+      messagingSenderId: "1024870214425",
+      appId: "1:1024870214425:web:7e053a3dea50911329f388",
+      measurementId: "G-QJESC6R1SG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Show user's name if logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("welcome").textContent = "Welcome, " + (user.displayName || user.email);
+      } else {
+        window.location.href = "2.html";
+      }
+    });
+
+    async function logout() {
+      await signOut(auth);
+      window.location.href = "2.html";
+    }
+
+    window.logout = logout;
+    </script> -->
+</body>
+</html>
+"
