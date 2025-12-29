@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Status - EcoCharge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script type="module">
+    // Import Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // ✅ Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdPZ3FqMdguYaDlvSiexSzkrdM-sumvL8",
+      authDomain: "electric-charging-statio-2486d.firebaseapp.com",
+      databaseURL: "https://electric-charging-statio-2486d-default-rtdb.firebaseio.com",
+      projectId: "electric-charging-statio-2486d",
+      storageBucket: "electric-charging-statio-2486d.firebasestorage.app",
+      messagingSenderId: "1024870214425",
+      appId: "1:1024870214425:web:7e053a3dea50911329f388",
+      measurementId: "G-QJESC6R1SG"
+    };
+
+    // ✅ Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // ✅ Helper: calculate status based on date & time
+    function getStatus(dateStr, timeStr) {
+      if (!dateStr || !timeStr) return "Unknown";
+      const now = new Date();
+      const bookingTime = new Date(`${dateStr} ${timeStr}`);
+
+      const diff = bookingTime - now;
+      if (diff > 60 * 60 * 1000) return "⏳ Upcoming";
+      if (diff > 0 && diff <= 60 * 60 * 1000) return "⚡ Starts Soon";
+      if (diff < 0 && Math.abs(diff) <= 60 * 60 * 1000) return "🔋 In Progress";
+      if (diff < -60 * 60 * 1000) return "❌ Slot Time Over";
+      return "⏳ Upcoming";
+    }
+
+    // ✅ Fetch booking data from Realtime Database
+    document.addEventListener("DOMContentLoaded", () => {
+      const tableBody = document.getElementById("bookingTable");
+
+      const bookingsRef = ref(db, "Users/");
+      onValue(bookingsRef, (snapshot) => {
+        tableBody.innerHTML = ""; // clear existing rows
+
+        if (!snapshot.exists()) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="7" class="text-center py-4 text-gray-500">No bookings found</td>
+            </tr>
+          `;
+          return;
+        }
+
+        snapshot.forEach(childSnapshot => {
+          const data = childSnapshot.val();
+          const status = getStatus(data.date, data.timeSlot);
+
+          const statusColor =
+            status.includes("Upcoming") ? "text-blue-600" :
+            status.includes("Starts") ? "text-yellow-600" :
+            status.includes("Progress") ? "text-green-600" :
+            "text-red-600";
+
+          const row = `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="py-3 px-4">${data.station || '-'}</td>
+              <td class="py-3 px-4">${data.date || '-'}</td>
+              <td class="py-3 px-4">${data.timeSlot || '-'}</td>
+              <td class="py-3 px-4">${data.vehicleType || '-'}</td>
+              <td class="py-3 px-4">${data.licensePlate || '-'}</td>
+              <td class="py-3 px-4">${data.email || '-'}</td>
+              <td class="py-3 px-4 font-medium ${statusColor}">${status}</td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      });
+    });
+  </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-green-600 text-white p-4 flex justify-between items-center shadow-md">
+    <h1 class="text-2xl font-semibold">EcoCharge - Booking Status</h1>
+    <button onclick="window.location.href='1.html'" class="bg-white text-green-600 px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition">
+      Home
+    </button>
+  </header>
+
+  <!-- Main Section -->
+  <main class="max-w-6xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">All Bookings</h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 rounded-lg">
+        <thead class="bg-green-50 text-green-700">
+          <tr>
+            <th class="py-3 px-4 text-left">Station</th>
+            <th class="py-3 px-4 text-left">Date</th>
+            <th class="py-3 px-4 text-left">Time Slot</th>
+            <th class="py-3 px-4 text-left">Vehicle</th>
+            <th class="py-3 px-4 text-left">License Plate</th>
+            <th class="py-3 px-4 text-left">Email</th>
+            <th class="py-3 px-4 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody id="bookingTable" class="text-gray-700">
+          <tr>
+            <td colspan="7" class="text-center py-4 text-gray-500">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+</body>
+</html>
